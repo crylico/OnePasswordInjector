@@ -22,7 +22,6 @@ static CGFloat const kButtonPadding = 10;
 		button.alpha = 0;
 
 		[textField addSubview:button];
-		button.layer.zPosition = 1000;
 
 		[UIView animateWithDuration:0.4 animations:^{
 
