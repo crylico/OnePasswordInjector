@@ -6,6 +6,12 @@ The 'starting' place for this tweak is in `UITextField/UITextFieldHooks.xm`, but
 
 Special thanks to the awesome guys at [1Password](https://agilebits.com) and the other awesome guys who make [Reveal](https://ittybittyapps.com). Without Reveal, I'd have spent triple the time I did.
 
+#Usage
+
+Any secure `UITextField` gets injected with the injection button.  Once you've retrieved your password using the extension, the password field will be automatically populated and your username will be copied to the device's clipboard so you can paste it into the username field.
+
+There are no options to configure. (yet!)
+
 
 #Installation
 
