@@ -11,8 +11,12 @@
 
 #import "onepassword-app-extension/OnePasswordExtension.h"
 
-@interface OnePasswordInjector : NSObject
+@interface OnePasswordInjector : NSObject <UIAlertViewDelegate>
 
-+ (void)injectButtonIntoPasswordField:(UITextField *)textField viewController:(UIViewController *)viewController;
+@property (nonatomic, copy) NSString *authURL;
+
++ (instancetype)sharedInjector;
+
+- (void)injectButtonIntoPasswordField:(UITextField *)textField viewController:(UIViewController *)viewController;
 
 @end

@@ -14,3 +14,17 @@
 - (void)setText:(NSString *)text animated:(BOOL)animated;
 
 @end
+
+@interface UIView(FindViewController)
+
+- (id)traverseResponderChainForUIViewController;
+
+@end
+
+typedef void (^UIAlertViewCompletionBlock)(UIAlertView *alert, NSInteger index);
+
+@interface UIAlertView (Utilities)
+
+- (void)showWithCompletion:(UIAlertViewCompletionBlock)completionBlock;
+
+@end
