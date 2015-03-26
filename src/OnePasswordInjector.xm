@@ -93,14 +93,7 @@ static NSString * const kOnePasswordInjectorAuthURLVerified = @"kOnePasswordInje
 		[button addTarget:self action:@selector(onePasswordButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
 		[button setImage:[self buttonImage] forState:UIControlStateNormal];
 
-		button.alpha = 0;
-
 		[textField addSubview:button];
-
-		[UIView animateWithDuration:0.4 animations:^{
-
-			button.alpha = 1;
-		}];
 	}
 }
 
