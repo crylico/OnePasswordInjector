@@ -179,7 +179,6 @@ static NSString * const kOnePasswordInjectorAuthURLVerified = @"kOnePasswordInje
 			[[NSUserDefaults standardUserDefaults] setBool:YES forKey:kOnePasswordInjectorAuthURLVerified];
 
 			[self fireOnePasswordExtension:sender];
-
 		}
 	}];
 }
