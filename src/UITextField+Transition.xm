@@ -6,11 +6,24 @@
 
 - (void)setText:(NSString *)text animated:(BOOL)animated {
 
+    self.text = @"";
     [UIView transitionWithView:self duration:animated ? 0.4 : 0 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
         
-        self.text = text;
+        [self insertText:text];
         
     } completion:nil];
+}
+
+- (void)simulateHumanInput:(NSString *)input {
+
+    [self becomeFirstResponder];
+
+    self.text = @"";
+    [self insertText:input];
+
+    [self resignFirstResponder];
+    
+    self.text = input;
 }
 
 @end

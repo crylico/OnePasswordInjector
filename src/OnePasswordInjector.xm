@@ -9,6 +9,7 @@ static NSString * const kBundlePath = @"/Library/MobileSubstrate/DynamicLibrarie
 static NSString * const kButtonImageName = @"onepassword-button";
 
 static NSString * const kOnePasswordInjectorAuthURLKey = @"kOnePasswordInjectorAuthURLKey";
+static NSString * const kOnePasswordInjectorAuthURLVerified = @"kOnePasswordInjectorAuthURLVerified";
 
 @implementation OnePasswordInjector
 
@@ -114,25 +115,38 @@ static NSString * const kOnePasswordInjectorAuthURLKey = @"kOnePasswordInjectorA
 
 - (void)onePasswordButtonPressed:(InjectionButton *)sender {
 
-	[((UIViewController *)[sender traverseResponderChainForUIViewController]).view endEditing:YES];
+	if(![[NSUserDefaults standardUserDefaults] boolForKey:kOnePasswordInjectorAuthURLVerified]) {
 
-	UIAlertView *alert = [[UIAlertView alloc] init];
-	alert.title = self.authURL;
-	alert.message = @"Is this the right Auth URL?";
-	[alert addButtonWithTitle:@"No"];
-	[alert addButtonWithTitle:@"Yes"];
+		[((UIViewController *)[sender traverseResponderChainForUIViewController]).view endEditing:YES];
 
-	[alert showWithCompletion:^(UIAlertView *alertView, NSInteger buttonIndex) {
+		UIAlertView *alert = [[UIAlertView alloc] init];
+		alert.title = self.authURL;
+		alert.message = @"Is this the right Auth URL?";
+		[alert addButtonWithTitle:@"No"];
+		[alert addButtonWithTitle:@"Yes"];
+		[alert addButtonWithTitle:@"Remember"];
 
-		if([[alert buttonTitleAtIndex:buttonIndex] isEqualToString:@"Yes"]) {
+		[alert showWithCompletion:^(UIAlertView *alertView, NSInteger buttonIndex) {
 
-			[self fireOnePasswordExtension:sender];
-		}
-		else {
+			if([[alert buttonTitleAtIndex:buttonIndex] isEqualToString:@"Yes"]) {
 
-			[self changeAuthURL:sender];
-		}
-	}];
+				[self fireOnePasswordExtension:sender];
+			}
+			else if([[alert buttonTitleAtIndex:buttonIndex] isEqualToString:@"Remember"]) {
+
+				[[NSUserDefaults standardUserDefaults] setBool:YES forKey:kOnePasswordInjectorAuthURLVerified];
+				[self fireOnePasswordExtension:sender];
+			}
+			else {
+
+				[self changeAuthURL:sender];
+			}
+		}];
+	}
+	else {
+
+		[self fireOnePasswordExtension:sender];
+	}
 }
 
 - (void)changeAuthURL:(InjectionButton *)sender {
@@ -142,19 +156,30 @@ static NSString * const kOnePasswordInjectorAuthURLKey = @"kOnePasswordInjectorA
 	alert.message = @"Please enter the proper auth URL:";
 	alert.alertViewStyle = UIAlertViewStylePlainTextInput;
 	[alert addButtonWithTitle:@"Cancel"];
-	[alert addButtonWithTitle:@"Change"];
+	[alert addButtonWithTitle:@"Change Once"];
+	[alert addButtonWithTitle:@"Change Forever"];
 
 	UITextField *textField = [alert textFieldAtIndex:0];
 	[textField becomeFirstResponder];
 
 	[alert showWithCompletion:^(UIAlertView *alertView, NSInteger buttonIndex) {
 
-		if([[alert buttonTitleAtIndex:buttonIndex] isEqualToString:@"Change"]) {
+		if([[alert buttonTitleAtIndex:buttonIndex] isEqualToString:@"Change Once"]) {
 
 			self.authURL = textField.text;
 			[[NSUserDefaults standardUserDefaults] setObject:self.authURL forKey:kOnePasswordInjectorAuthURLKey];
 
 			[self fireOnePasswordExtension:sender];
+		}
+		else if([[alert buttonTitleAtIndex:buttonIndex] isEqualToString:@"Change Forever"]) {
+
+			self.authURL = textField.text;
+
+			[[NSUserDefaults standardUserDefaults] setObject:self.authURL forKey:kOnePasswordInjectorAuthURLKey];
+			[[NSUserDefaults standardUserDefaults] setBool:YES forKey:kOnePasswordInjectorAuthURLVerified];
+
+			[self fireOnePasswordExtension:sender];
+
 		}
 	}];
 }
@@ -174,8 +199,8 @@ static NSString * const kOnePasswordInjectorAuthURLKey = @"kOnePasswordInjectorA
         }
 
         UITextField *passwordField = (UITextField *)sender.superview;
+        [passwordField simulateHumanInput:loginDict[AppExtensionPasswordKey]];
 
-		[passwordField setText:loginDict[AppExtensionPasswordKey] animated:YES];
 		[[UIPasteboard generalPasteboard] setString:(NSString *)loginDict[AppExtensionUsernameKey]];
     }];
 }
