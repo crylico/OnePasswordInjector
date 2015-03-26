@@ -1,8 +1,7 @@
-#import "InjectionButton.h"
-#import "UITextField+Transition.h"
+#import "UITextField+OnePasswordInjection.h"
 #import <objc/runtime.h>
 
-@implementation UITextField(Transition)
+@implementation UITextField(OnePasswordInjection)
 
 - (void)setText:(NSString *)text animated:(BOOL)animated {
 
@@ -85,21 +84,3 @@
 }
 
 @end
-
-%hook UITextField 
-
-- (void)addSubview:(UIView *)view {
-
-	%orig(view);
-
-	for(UIView *view in self.subviews) {
-
-		if([view isKindOfClass:[InjectionButton class]]) {
-
-			[self bringSubviewToFront:view];
-			break;
-		}
-	}
-}
-
-%end

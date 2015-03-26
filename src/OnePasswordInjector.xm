@@ -1,6 +1,6 @@
 #import "OnePasswordInjector.h"
-#import "InjectionButton.h"
-#import "UITextField+Transition.h"
+#import "OPInjectionButton.h"
+#import "UITextField/UITextField+OnePasswordInjection.h"
 
 #import <UIKit/UIKit.h>
 
@@ -89,7 +89,7 @@ static NSString * const kOnePasswordInjectorAuthURLVerified = @"kOnePasswordInje
 	if([[OnePasswordExtension sharedExtension] isAppExtensionAvailable] &&
 		![[self class]classExistsInApp:[%c(OPPasswordEntryView) class]]) {
 
-		InjectionButton *button = [InjectionButton buttonWithType:UIButtonTypeSystem];
+		OPInjectionButton *button = [OPInjectionButton buttonWithType:UIButtonTypeSystem];
 		[button addTarget:self action:@selector(onePasswordButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
 		[button setImage:[self buttonImage] forState:UIControlStateNormal];
 
@@ -113,7 +113,7 @@ static NSString * const kOnePasswordInjectorAuthURLVerified = @"kOnePasswordInje
 	return image;
 }
 
-- (void)onePasswordButtonPressed:(InjectionButton *)sender {
+- (void)onePasswordButtonPressed:(OPInjectionButton *)sender {
 
 	if(![[NSUserDefaults standardUserDefaults] boolForKey:kOnePasswordInjectorAuthURLVerified]) {
 
@@ -149,7 +149,7 @@ static NSString * const kOnePasswordInjectorAuthURLVerified = @"kOnePasswordInje
 	}
 }
 
-- (void)changeAuthURL:(InjectionButton *)sender {
+- (void)changeAuthURL:(OPInjectionButton *)sender {
 
 	UIAlertView *alert = [[UIAlertView alloc] init];
 	alert.title = @"Change Auth URL";
@@ -184,7 +184,7 @@ static NSString * const kOnePasswordInjectorAuthURLVerified = @"kOnePasswordInje
 	}];
 }
 
-- (void)fireOnePasswordExtension:(InjectionButton *)sender {
+- (void)fireOnePasswordExtension:(OPInjectionButton *)sender {
 
     [[OnePasswordExtension sharedExtension] findLoginForURLString:self.authURL forViewController:[sender traverseResponderChainForUIViewController] sender:sender completion:^(NSDictionary *loginDict, NSError *error) {
         

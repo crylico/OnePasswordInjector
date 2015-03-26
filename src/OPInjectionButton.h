@@ -9,5 +9,5 @@
 
 #import <UIKit/UIKit.h>
 
-@interface InjectionButton : UIButton
+@interface OPInjectionButton : UIButton
 @end

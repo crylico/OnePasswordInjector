@@ -9,7 +9,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UITextField(Transition)
+@interface UITextField(OnePasswordInjection)
 
 - (void)setText:(NSString *)text animated:(BOOL)animated;
 - (void)simulateHumanInput:(NSString *)input;
