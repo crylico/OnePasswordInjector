@@ -9,8 +9,6 @@
 
 #import <UIKit/UIKit.h>
 
-#import "onepassword-app-extension/OnePasswordExtension.h"
-
 @interface OnePasswordInjector : NSObject <UIAlertViewDelegate>
 
 @property (nonatomic, copy) NSString *authURL;

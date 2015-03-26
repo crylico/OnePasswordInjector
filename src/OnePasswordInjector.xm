@@ -1,8 +1,10 @@
+#import <UIKit/UIKit.h>
+
 #import "OnePasswordInjector.h"
+
+#import "onepassword-app-extension/OnePasswordExtension.h"
 #import "OPInjectionButton.h"
 #import "UITextField/UITextField+OnePasswordInjection.h"
-
-#import <UIKit/UIKit.h>
 
 static NSString * const kBundlePath = @"/Library/MobileSubstrate/DynamicLibraries/1passwordinjector_bundle.bundle";
 
