@@ -20,13 +20,16 @@
 
 	%orig();
 
-	for(OPInjectionButton *button in self.subviews) {
+	if([OnePasswordInjector sharedInjector]) {
 
-		if([button isKindOfClass:[OPInjectionButton class]]) {
+		for(OPInjectionButton *button in self.subviews) {
 
-			button.bounds = CGRectMake(0, 0, CGRectGetHeight(self.bounds) * 0.8, CGRectGetHeight(self.bounds) * 0.8);
-			button.center = CGPointMake(CGRectGetWidth(self.bounds) - CGRectGetHeight(self.bounds) * 0.4 - 10, CGRectGetHeight(self.bounds) / 2);
-			break;
+			if([button isKindOfClass:[OPInjectionButton class]]) {
+
+				button.bounds = CGRectMake(0, 0, CGRectGetHeight(self.bounds) * 0.8, CGRectGetHeight(self.bounds) * 0.8);
+				button.center = CGPointMake(CGRectGetWidth(self.bounds) - CGRectGetHeight(self.bounds) * 0.4 - 10, CGRectGetHeight(self.bounds) / 2);
+				break;
+			}
 		}
 	}
 }
@@ -35,12 +38,15 @@
 
 	%orig(view);
 
-	for(UIView *view in self.subviews) {
+	if([OnePasswordInjector sharedInjector]) {
 
-		if([view isKindOfClass:[OPInjectionButton class]]) {
+		for(UIView *view in self.subviews) {
 
-			[self bringSubviewToFront:view];
-			break;
+			if([view isKindOfClass:[OPInjectionButton class]]) {
+
+				[self bringSubviewToFront:view];
+				break;
+			}
 		}
 	}
 }

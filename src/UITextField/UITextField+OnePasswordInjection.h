@@ -11,7 +11,6 @@
 
 @interface UITextField(OnePasswordInjection)
 
-- (void)setText:(NSString *)text animated:(BOOL)animated;
 - (void)simulateHumanInput:(NSString *)input;
 
 @end
