@@ -4,7 +4,7 @@ This tweak injects the 1Password extension into any secure-entry `UITextField`.
 
 The 'starting' place for this tweak is in `src/UITextFieldHooks.xm`, but most of the interesting stuff happens in `src/OnePasswordInjector.xm`.
 
-Special thanks to the awesome guys at [1Password](https://agilebits.com) and the other awesome guys who make [Reveal](https://ittybittyapps.com). Without Reveal, I'd have spent triple the time I did.
+Special thanks to the awesome guys at [1Password](https://agilebits.com) and the other awesome guys who make [Reveal](http://revealapp.com). Without Reveal, I'd have spent triple the time I did.
 
 #Usage
 
