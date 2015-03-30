@@ -16,9 +16,3 @@ There are no options to configure. (yet!)
 #Installation
 
 Install my fork of theos or equivalent, then `make package install`
-
-#Side Note
-
-`UITextField+OnePasswordInjection.(h)(xm)` is a very busy file (3 categories on 3 different classes), so I'll make that sane at some point.
-
-

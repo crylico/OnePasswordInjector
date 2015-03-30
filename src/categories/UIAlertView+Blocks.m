@@ -1,40 +1,5 @@
-#import "UITextField+OnePasswordInjection.h"
+#import "UIAlertView+Blocks.h"
 #import <objc/runtime.h>
-
-@implementation UITextField(OnePasswordInjection)
-
-- (void)simulateHumanInput:(NSString *)input {
-
-    [self becomeFirstResponder];
-
-    [self insertText:input];
-
-    [self resignFirstResponder];
-    
-    self.text = input;
-}
-
-@end
-
-@implementation UIView(FindViewController)
-
-- (id)traverseResponderChainForUIViewController {
-
-    id nextResponder = [self nextResponder];
-
-    if ([nextResponder isKindOfClass:[UIViewController class]]) {
-
-        return nextResponder;
-    } 
-    else if ([nextResponder isKindOfClass:[UIView class]]) {
-
-        return [nextResponder traverseResponderChainForUIViewController];
-    }
-
-    return nil;
-}
-
-@end
 
 @interface UIAlertView () <UIAlertViewDelegate>
 

@@ -4,7 +4,10 @@
 
 #import "onepassword-app-extension/OnePasswordExtension.h"
 #import "OPInjectionButton.h"
-#import "UITextField/UITextField+OnePasswordInjection.h"
+
+#import "categories/UITextField+HumanInput.h"
+#import "categories/UIAlertView+Blocks.h"
+#import "categories/UIView+FindViewController.h"
 
 static NSString * const kBundlePath = @"/Library/MobileSubstrate/DynamicLibraries/1passwordinjector_bundle.bundle";
 
@@ -22,13 +25,24 @@ static NSString * const kOnePasswordInjectorAuthURLVerified = @"kOnePasswordInje
 
 	dispatch_once(&onceToken, ^{
 
-		if(![self classExistsInApp:[OnePasswordExtension class]]) {
+		if([self shouldInject]) {
 
 			sharedInjector = [[OnePasswordInjector alloc] init];
 		}
 	});
 
 	return sharedInjector;
+}
+
++ (BOOL)shouldInject {
+
+	// We should only inject if the app extension is available 
+	// AND the app doesn't already contain the `OnePasswordExtension` class
+	// AND the app doesn't contain the `OPPasswordEntryView` class (i.e. it is the 1Password app itself)
+
+	return [[OnePasswordExtension sharedExtension] isAppExtensionAvailable] &&
+			![self classExistsInApp:[OnePasswordExtension class]] &&
+			![[self class]classExistsInApp:[%c(OPPasswordEntryView) class]];
 }
 
 - (id)init {
@@ -86,17 +100,13 @@ static NSString * const kOnePasswordInjectorAuthURLVerified = @"kOnePasswordInje
 	return count > 0;
 }
 
-- (void)injectButtonIntoPasswordField:(UITextField *)textField viewController:(UIViewController *)viewController {
+- (void)injectButtonIntoPasswordField:(UITextField *)textField {
 
-	if([[OnePasswordExtension sharedExtension] isAppExtensionAvailable] &&
-		![[self class]classExistsInApp:[%c(OPPasswordEntryView) class]]) {
+	OPInjectionButton *button = [OPInjectionButton buttonWithType:UIButtonTypeSystem];
+	[button addTarget:self action:@selector(onePasswordButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+	[button setImage:[self buttonImage] forState:UIControlStateNormal];
 
-		OPInjectionButton *button = [OPInjectionButton buttonWithType:UIButtonTypeSystem];
-		[button addTarget:self action:@selector(onePasswordButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-		[button setImage:[self buttonImage] forState:UIControlStateNormal];
-
-		[textField addSubview:button];
-	}
+	[textField addSubview:button];
 }
 
 - (UIImage *)buttonImage {

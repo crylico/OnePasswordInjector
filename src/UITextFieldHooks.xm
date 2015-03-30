@@ -1,8 +1,8 @@
 
-#import "../OnePasswordInjector.h"
-#import "../OPInjectionButton.h"
+#import "OnePasswordInjector.h"
+#import "OPInjectionButton.h"
 
-#import "UITextField+OnePasswordInjection.h"
+#import "categories/UITextField+HumanInput.h"
 
 %hook UITextField
 
@@ -12,7 +12,7 @@
 
 	if(secure) {
 
-		[[OnePasswordInjector sharedInjector] injectButtonIntoPasswordField:self viewController:[self traverseResponderChainForUIViewController]];
+		[[OnePasswordInjector sharedInjector] injectButtonIntoPasswordField:self];
 	}
 }
 

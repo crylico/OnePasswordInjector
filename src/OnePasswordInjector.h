@@ -13,8 +13,11 @@
 
 @property (nonatomic, copy) NSString *authURL;
 
+// Return the sharedInjector if the app doesn't already contain the 1Password App Extension.
+// If the app already contains the extension, return nil.
 + (instancetype)sharedInjector;
 
-- (void)injectButtonIntoPasswordField:(UITextField *)textField viewController:(UIViewController *)viewController;
+// Inject the 1Password button into the given textfield.
+- (void)injectButtonIntoPasswordField:(UITextField *)textField;
 
 @end

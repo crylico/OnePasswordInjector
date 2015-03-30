@@ -9,18 +9,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UITextField(OnePasswordInjection)
-
-- (void)simulateHumanInput:(NSString *)input;
-
-@end
-
-@interface UIView(FindViewController)
-
-- (id)traverseResponderChainForUIViewController;
-
-@end
-
 typedef void (^UIAlertViewCompletionBlock)(UIAlertView *alert, NSInteger index);
 
 @interface UIAlertView (Utilities)

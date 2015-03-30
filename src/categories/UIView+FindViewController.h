@@ -9,6 +9,8 @@
 
 #import <UIKit/UIKit.h>
 
-// This subclass is a good alternative to using magic numbers
-@interface OPInjectionButton : UIButton
+@interface UIView(FindViewController)
+
+- (UIViewController *)traverseResponderChainForUIViewController;
+
 @end
