@@ -21,6 +21,7 @@
 
 - (void)showWithCompletion:(void (^)(UIAlertView *, NSInteger))completionBlock {
     
+    // Set the completion block and delegate
     self.completionBlock = completionBlock;
     self.delegate = self;
     
@@ -31,6 +32,7 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     
+    // If the completion block exists, call it
     if(self.completionBlock) {
         
         self.completionBlock(alertView, buttonIndex);

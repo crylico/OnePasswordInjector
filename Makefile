@@ -3,6 +3,9 @@ export TARGET = iphone:latest:8.1
 
 TWEAK_NAME = 1passwordinjector
 
+# Enabled ARC - not doing any object creation in hooked methods
+1passwordinjector_CFLAGS = -fobjc-arc
+
 # Tweak/Hook
 1passwordinjector_FILES = src/OnePasswordInjector.xm
 1passwordinjector_FILES += src/UITextFieldHooks.xm
